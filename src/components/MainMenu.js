@@ -3,7 +3,10 @@ import { useEffect, useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-import Note from './Note';
+import Note from './Note'
+import { mobile } from './Responsive';
+import Logo from "./../assets/icons8-notes-100.png";
+
 
 export default function MainMenu () {
     const [notes, setNotes] = useState([]);
@@ -33,6 +36,11 @@ export default function MainMenu () {
 
 	}, []);
 
+
+    function goHome () {
+      navigate('/')
+    }
+
     const pages = Math.ceil(notes.length / itensPerPage);
     const startIndex = currentPage * itensPerPage;
     const endIndex = startIndex + itensPerPage;
@@ -40,14 +48,26 @@ export default function MainMenu () {
 
     return (
         <>
-       <Header>
-            <h2 onClick={() => navigate('/login')}>Login</h2>
-            <ion-icon name="log-in-outline" onClick={() => navigate('/login')}></ion-icon>
-            {
-                login ? <h2>Oi, { user }! </h2> : <h2>Bem-vinda(o)!</h2>
-            }   
-            <h2 onClick={() => navigate('/sign-up')}>Cadastro</h2>
-       </Header>
+      <Header>
+      <Wrapper>
+       <Left>
+      <img src={Logo} alt="Logo" onClick={goHome} />
+        </Left>
+     
+         <Center>
+          <Nogo>WRITE IT!</Nogo>
+        </Center>
+        <Right>
+          <MenuItem>
+          {
+            login ? <h2>Oi, { user.name }! </h2> : <h2>Seja bem-vinda(o)!</h2>
+          } 
+          </MenuItem>
+          <MenuItem onClick={() => navigate('/sign-up')}>REGISTER</MenuItem>
+          <MenuItem onClick={() => navigate('/login')}>SIGN IN</MenuItem>
+        </Right>
+        </Wrapper>
+     </Header>
        <Container>
             <Notes>
             {
@@ -61,19 +81,64 @@ export default function MainMenu () {
 }
 
 
+const Wrapper = styled.div`
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  ${mobile({ padding: "10px 0px" })}
+  img {
+    width: 75px;
+}
+`;
+const Left = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+`;
+
+
+const MenuItem = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+`;
+const Center = styled.div`
+  flex: 1;
+  text-align: center;
+  font-family: 'inspire';
+`;
+
+const Nogo = styled.h1`
+  font-weight: bold;
+  ${mobile({ fontSize: "24px" })}
+`;
+const Right = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  ${mobile({ flex: 2, justifyContent: "center" })}
+`;
+
 const Header=styled.div`
     width: 100%;
     height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
     background-color: #B5D3E7;
     border-radius: 5px;
     margin-top: 50px;
     color: #000;
     font-size: 20px;
-    
-
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+    ),
+    url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fst2.depositphotos.com%2F2673669%2F7343%2Fv%2F950%2Fdepositphotos_73438117-stock-illustration-sticky-notes-wallpaper.jpg&f=1&nofb=1")
+        center;
+background-size: cover;
+	
     ion-icon {
         font-size: 60px;
     }
@@ -86,7 +151,8 @@ const Container=styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F402%2F828%2Foriginal%2Fvector-collection-of-sticky-note-illustrations.jpg&f=1&nofb=1");
+    
+  
 `
 
 
