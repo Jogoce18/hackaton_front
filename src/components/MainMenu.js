@@ -7,22 +7,29 @@ import Note from './Note'
 
 export default function MainMenu () {
     const [notes, setNotes] = useState([]);
-    const { user } = useContext(UserContext);
+    const { user,token } = useContext(UserContext);
     const navigate = useNavigate();
     const [itensPerPage, setItensPerPage] = useState(2);
     const [currentPage, setCurrentPage] = useState(0);
     const [login, setLogin]  = useState(false);
 
-	// useEffect(() => {
-	// 	const promise = axios.get('https://firsthackaton.herokuapp.com/notas', {headers: {Authorization: `Bearer ${user.token}`}});
-    //     promise.then((res) => {
-	// 		setNotes(res.data);
-    //      setLogin(true)
-	// 	});
-    //     promise.catch((err) => {
-    //         alert('Algo deu errado! Tente novamente.')
-    //     })
-	// }, []);
+	useEffect(() => {
+        if(token){
+            setLogin(true);
+        }
+        
+	    const promise = axios.get('https://firsthackaton.herokuapp.com/notas', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        promise.then((res) => {
+	 	    setNotes(res.data);
+	 	});
+         promise.catch(Error => {
+             alert(Error.response.data.message)
+         })
+	}, []);
 
     const pages = Math.ceil(notes.length / itensPerPage);
     const startIndex = currentPage * itensPerPage;

@@ -17,11 +17,21 @@ export default function App() {
         ? JSON.parse(localStorage.getItem('userdata'))
         : null
   );
+  const [token,setToken] = useState('');
+
+  const userContext = {
+    user,
+    setUser,
+    token,
+    setToken
+  }
+
+  
 
   return (
     
     <BrowserRouter>
-      <UserContext.Provider value={{ user, setUser }}>
+      <UserContext.Provider value={userContext}>
           <Routes>
             <Route path ='/login' element ={<Login />}/>
             <Route path='/sign-up' element={<Register />} />

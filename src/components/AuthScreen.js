@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { mobile } from "./Resnposive";
+import { mobile } from "./Responsive";
 
 export default function AuthScreen(props) {
 	return (

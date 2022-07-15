@@ -2,15 +2,17 @@ import styled from "styled-components";
 import axios from 'axios';
 import { ThreeDots } from 'react-loader-spinner';
 
-import { Link } from "react-router-dom";
-import { mobile } from "./Resnposive";
+import { Link,useNavigate } from "react-router-dom";
+import { mobile } from "./Responsive";
 import Logo from "./../assets/icons8-notes-100.png";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import UserContext from "../contexts/UserContext.js";
 
 const Login= () => {
-
+	const navigate = useNavigate();
 	const [email,setEmail] = useState('');
 	const [password,setPassword] = useState('');
+	const { setToken } = useContext(UserContext);
 
 	function signIn(event){
 		event.preventDefault();
@@ -23,7 +25,8 @@ const Login= () => {
 		const promise = axios.post('https://firsthackaton.herokuapp.com/sign-in',body);
 
 		promise.then(res=>{
-			// res.data recebe o token
+			setToken(res.data);
+			navigate('/');
 		});
 
 		promise.catch(Error=>{
