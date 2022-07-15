@@ -3,11 +3,11 @@ import { useEffect, useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-import Note from './Note'
+import Note from './Note';
 
 export default function MainMenu () {
     const [notes, setNotes] = useState([]);
-    const { user,token } = useContext(UserContext);
+    const { user,token} = useContext(UserContext);
     const navigate = useNavigate();
     const [itensPerPage, setItensPerPage] = useState(2);
     const [currentPage, setCurrentPage] = useState(0);
@@ -17,18 +17,20 @@ export default function MainMenu () {
         if(token){
             setLogin(true);
         }
-        
 	    const promise = axios.get('https://firsthackaton.herokuapp.com/notas', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
+
         promise.then((res) => {
 	 	    setNotes(res.data);
 	 	});
-         promise.catch(Error => {
+
+        promise.catch(Error => {
              alert(Error.response.data.message)
-         })
+         });
+
 	}, []);
 
     const pages = Math.ceil(notes.length / itensPerPage);
@@ -42,7 +44,7 @@ export default function MainMenu () {
             <h2 onClick={() => navigate('/login')}>Login</h2>
             <ion-icon name="log-in-outline" onClick={() => navigate('/login')}></ion-icon>
             {
-                login ? <h2>Oi, { user.name }! </h2> : <h2>Bem-vinda(o)!</h2>
+                login ? <h2>Oi, { user }! </h2> : <h2>Bem-vinda(o)!</h2>
             }   
             <h2 onClick={() => navigate('/sign-up')}>Cadastro</h2>
        </Header>

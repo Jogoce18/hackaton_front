@@ -12,11 +12,7 @@ import NewNote from "./NewNote";
 
 export default function App() {
 
-  const [user, setUser] = useState(
-    localStorage.getItem('userdata')
-        ? JSON.parse(localStorage.getItem('userdata'))
-        : null
-  );
+  const [user, setUser] = useState('');
   const [token,setToken] = useState('');
 
   const userContext = {
@@ -25,8 +21,6 @@ export default function App() {
     token,
     setToken
   }
-
-  
 
   return (
     
