@@ -74,7 +74,7 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
                 <Button onClick={()=>deleteMarkdown(date)} >Delete</Button>
                 <Button1 onClick={()=>setEdit(true)}>Edit</Button1>
                 {
-                    edit ? <NewNote newNoteProps={newNoteProps} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
+                    edit ? <NewNote newNoteProps={newNoteProps} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
                 }
             </NoteF>
            
@@ -156,28 +156,3 @@ const Button1=styled.button`
             color: #fff;
         }
         `
-
-const Form=styled.form`
-width: 500px;
-background-color: #ffffff;
-padding: 1rem 2rem;
-box-shadow: 0px 0px 10px #000 ;
-font-family: 'Urbanist', sans-serif;
-border-radius: 10px;`
-
-const Formcontrol=styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 1.5rem 0;
-   
-    `
-const Input = styled.input`
-        padding: 10px 0 ;
-        width: 100%;
-        font-size: 18px;
-        letter-spacing: 1px;
-        border: 0;
-        border-bottom: 2px solid rgb(135, 206, 250);
-        background-color: transparent;
-        outline: none;
-        `;
