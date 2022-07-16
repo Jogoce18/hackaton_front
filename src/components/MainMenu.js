@@ -42,6 +42,10 @@ export default function MainMenu () {
       navigate('/')
     }
 
+    function addNote () {
+      navigate('/newnote')
+    }
+
     const pages = Math.ceil(notes.length / itensPerPage);
     const startIndex = currentPage * itensPerPage;
     const endIndex = startIndex + itensPerPage;
@@ -57,6 +61,7 @@ export default function MainMenu () {
      
          <Center>
           <Nogo>WRITE IT!</Nogo>
+          <Button onClick={addNote}>+</Button>
         </Center>
         <Right>
           <MenuItem>
@@ -99,6 +104,16 @@ const Left = styled.div`
   align-items: center;
 `;
 
+const Button=styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 5px;
+  border: 2px black solid;
+  background-color: #ffd1dc;
+  opacity: 0.6;
+  font-size: 20px;
+`
 
 const MenuItem = styled.div`
   font-size: 14px;
@@ -110,6 +125,9 @@ const Center = styled.div`
   flex: 1;
   text-align: center;
   font-family: 'inspire';
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Nogo = styled.h1`
