@@ -8,15 +8,6 @@ import NewNote from "./NewNote.js";
 export default function Note ({ name, description, date, setCurrentPage, pages}) {
     const {token} = useContext(UserContext);
     const [edit,setEdit] = useState(false);
-    const [newName,setNewName] = useState('');
-    const [newDescription,setNewDescription] = useState('');
-
-    const newNoteProps = {
-        newName,
-        setNewName,
-        newDescription,
-        setNewDescription
-    }
 
     function deleteMarkdown(date){
 
@@ -37,8 +28,6 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
 
     function editMarkdown(event,name,description,date){
         event.preventDefault();
-        console.log(newName)
-        console.log(newDescription)
 
         const body = {
             name,
@@ -74,7 +63,7 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
                 <Button onClick={()=>deleteMarkdown(date)} >Delete</Button>
                 <Button1 onClick={()=>setEdit(true)}>Edit</Button1>
                 {
-                    edit ? <NewNote newNoteProps={newNoteProps} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
+                    edit ? <NewNote edit={true} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
                 }
             </NoteF>
            

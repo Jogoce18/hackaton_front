@@ -3,7 +3,7 @@ import { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-export default function NewNote ({newNoteProps,nameE,descriptionE,teste}) {
+export default function NewNote ({edit,nameE,descriptionE,teste}) {
     const [name,setName] = useState(nameE);
     const [description,setDescription] = useState(descriptionE);
     const {token} = useContext(UserContext);
@@ -34,7 +34,7 @@ export default function NewNote ({newNoteProps,nameE,descriptionE,teste}) {
     return (
         <Container>
             {
-                newNoteProps ? 
+                edit ? 
             <Form>
                 <Formcontrol>  
                 <label for="title">Title</label>
