@@ -73,7 +73,6 @@ export default function MainMenu () {
         </Wrapper>
      </Header>
        <Container>
-       
             <Notes>
         
             {
