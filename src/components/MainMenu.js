@@ -11,7 +11,7 @@ export default function MainMenu () {
     const [notes, setNotes] = useState([]);
     const { user,token} = useContext(UserContext);
     const navigate = useNavigate();
-    const [itensPerPage, setItensPerPage] = useState(2);
+    const [itensPerPage, setItensPerPage] = useState(3);
     const [currentPage, setCurrentPage] = useState(0);
     const [login, setLogin]  = useState(false);
 
@@ -33,11 +33,15 @@ export default function MainMenu () {
              alert(Error.response.data.message)
          });
 
-	}, []);
+	}, [notes]);
 
 
     function goHome () {
       navigate('/')
+    }
+
+    function addNote () {
+      navigate('/newnote')
     }
 
     const pages = Math.ceil(notes.length / itensPerPage);
@@ -55,11 +59,12 @@ export default function MainMenu () {
      
          <Center>
           <Nogo>WRITE IT!</Nogo>
+          <Button onClick={addNote}>+</Button>
         </Center>
         <Right>
           <MenuItem>
           {
-            login ? <h2>Oi, { user.name }! </h2> : <h2>Seja bem-vinda(o)!</h2>
+            login ? <h2>Oi, { user.name }! </h2> : <h2></h2>
           } 
           </MenuItem>
           <MenuItem onClick={() => navigate('/sign-up')}>REGISTER</MenuItem>
@@ -68,7 +73,9 @@ export default function MainMenu () {
         </Wrapper>
      </Header>
        <Container>
+       
             <Notes>
+        
             {
                 currentItens.length > 0 ? currentItens.map((note, index) => <Note key={index} name={note.name} description={note.description} date={note.noteId} setCurrentPage={setCurrentPage} pages={pages}/> )
                 : <h2>Você não possui nenhuma nota!</h2>
@@ -97,23 +104,42 @@ const Left = styled.div`
   align-items: center;
 `;
 
+const Button=styled.button`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 5px;
+  border: 2px black solid;
+  background-color: #ffd1dc;
+  opacity: 0.6;
+  font-size: 20px;
+`
 
 const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
+  font-weight: bold;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 const Center = styled.div`
   flex: 1;
   text-align: center;
   font-family: 'inspire';
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Nogo = styled.h1`
   font-weight: bold;
   ${mobile({ fontSize: "24px" })}
 `;
+
+const Notetext= styled.h2 `
+  margin-bottom: 20px;
+  `;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -148,10 +174,7 @@ const Container=styled.div`
     height: 100%;
     margin-top: 60px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    
-  
+    gap:5px;
 `
 
 

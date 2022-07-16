@@ -7,7 +7,8 @@ import { useContext } from "react";
 export default function Note ({ name, description, date, setCurrentPage, pages}) {
     const {token} = useContext(UserContext);
 
-    function deleteMarkdown(){
+    function deleteMarkdown(date){
+        console.log(date)
         const promise = axios.delete(`https://firsthackaton.herokuapp.com/notas/${date}`,{
             headers:{
                 Authorization:`Bearer ${token}`
@@ -45,23 +46,26 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
     }
 
     return (
-        <Container>
-            <Prev><ion-icon name="arrow-back-circle-outline" onClick={() => setCurrentPage(pages - 1)}></ion-icon></Prev>
-            <Note>
-                <div>
-                    <h3>{name}</h3>
-                    <h3>{dayjs(date).format('DD/MM')}</h3>
-                </div>
-                <div>
+       
+            
+            <NoteF>
+                <Notetext1>
+                    {name}
+                </Notetext1>
+                <h3>{dayjs(date).format('DD/MM')}</h3>
+                <Notetext>
                     {description}
-                </div>
-            </Note>
-            <Next><ion-icon name="arrow-forward-circle-outline" onClick={() => setCurrentPage(pages + 1)}></ion-icon></Next>
-        </Container>
+                </Notetext>
+                <Button onClick={()=>deleteMarkdown(date)} >Delete</Button>
+                <Button1 onClick={editMarkdown} >Edit</Button1>
+            </NoteF>
+           
+       
     )
 }
 
 const Container=styled.div`
+
 `
 
 const Prev=styled.div`
@@ -71,7 +75,66 @@ const Prev=styled.div`
 `
 
 const Next=styled.div`
-    ion-icon {
-        font-size: 40px;
-    }
+font-size: 1.9rem;
+padding-bottom: 7px;
+position: relative;
+display: inline;
 `
+const NoteF=styled.div`
+background: #fff;
+padding: 1rem 1.5rem 1rem;
+width: 32rem;
+box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+border-radius: 5px;
+margin: 1rem 2rem;
+font-family: 'Urbanist', sans-serif;
+    `
+const Notetext=styled.div`
+font-size: 1.3rem;
+letter-spacing: 0.5px;
+padding: 1rem 0;
+font-family: 'Urbanist', sans-serif;
+        `
+const Notetext1=styled.div`
+font-size: 1.3rem;
+letter-spacing: 0.5px;
+padding: 1rem 0;
+font-weight: bold;
+font-family: 'Urbanist', sans-serif;
+
+        `
+const Button1=styled.button`
+            padding: 8px 15px;
+            letter-spacing: 1px;
+            font-size: 15px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background: rgb(135, 206, 250);
+            color: rgb(66, 65, 65);
+       
+        .Button:hover{
+            background: darkgoldenrod;
+            transition: all 0.4s;
+            color: #fff;
+        }
+        `
+    const Button=styled.button`
+            padding: 8px 15px;
+            letter-spacing: 1px;
+            font-size: 15px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background: rgb(135, 206, 250);
+            color: rgb(33, 65, 6);
+            margin:5px;
+        
+        .Button:hover{
+            background: darkgoldenrod;
+            transition: all 0.4s;
+            color: #fff;
+        }
+        `
