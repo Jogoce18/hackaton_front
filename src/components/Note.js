@@ -63,7 +63,7 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
                 <Button onClick={()=>deleteMarkdown(date)} >Delete</Button>
                 <Button1 onClick={()=>setEdit(true)}>Edit</Button1>
                 {
-                    edit ? <NewNote edit={true} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
+                    edit ? <NewNote setEdit={setEdit} edit={true} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
                 }
             </NoteF>
            
