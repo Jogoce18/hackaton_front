@@ -6,10 +6,9 @@ import { useContext } from "react";
 
 export default function Note ({ name, description, date, setCurrentPage, pages}) {
     const {token} = useContext(UserContext);
-    const id = 1;
 
     function deleteMarkdown(){
-        const promise = axios.delete(`https://firsthackaton.herokuapp.com/notas/${id}`,{
+        const promise = axios.delete(`https://firsthackaton.herokuapp.com/notas/${date}`,{
             headers:{
                 Authorization:`Bearer ${token}`
             }
@@ -30,7 +29,7 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
             description
         }
 
-        const promise = axios.patch(`https://firsthackaton.herokuapp.com/notas/${id}`,body,{
+        const promise = axios.patch(`https://firsthackaton.herokuapp.com/notas/${date}`,body,{
             headers:{
                 Authorization:`Bearer ${token}`
             }
@@ -50,8 +49,8 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
             <Prev><ion-icon name="arrow-back-circle-outline" onClick={() => setCurrentPage(pages - 1)}></ion-icon></Prev>
             <Note>
                 <div>
-                    {name}
-                    dayjs({date}).format('DD/MM')
+                    <h3>{name}</h3>
+                    <h3>{dayjs(date).format('DD/MM')}</h3>
                 </div>
                 <div>
                     {description}

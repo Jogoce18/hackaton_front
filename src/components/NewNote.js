@@ -1,29 +1,33 @@
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
-
+import UserContext from '../contexts/UserContext';
 export default function NewNote () {
-
-    const [data, setData] = useState({name: "", description: ""})
+    const [name,setName] = useState('');
+    const [description,setDescription] = useState('');
+    const {token} = useContext(UserContext);
     const navigate = useNavigate();
 
-    // function sendNote (event) {
-    //     event.preventDefault();
-    //     const promise = axios.post('https://firsthackaton.herokuapp.com/notas', {
-    //         name: data.name,
-    //         description: data.description
-    //     }, {
-    //         headers: {Authorization: `Bearer ${token}`}});
-    //     promise.then((res) => {
-    //         navigate('/')
-    //     })
-    //     promise.catch((err) => {
-    //         alert('Algo deu errado! Tente novamente.')
-    //     })
-    // }
+    function sendNote (event) {
+        event.preventDefault();
+        const body = {
+            name,
+            description
+        }
+        const promise = axios.post('https://firsthackaton.herokuapp.com/notas', body, {
+             headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+         promise.then((res) => {
+             navigate('/')
+         })
+         promise.catch((err) => {
+             alert('Algo deu errado! Tente novamente.')
+         })
+     }
     
 
     return (
@@ -33,16 +37,16 @@ export default function NewNote () {
             <input
                     type="text"
                     placeholder="Nome da sua anotação"
-                    value={data.name}
+                    value={name}
                     required                    
-                    onChange={(e) => setData({...data, name: e.target.value})} 
+                    onChange={e => setName(e.target.value)} 
             />
             <input
                 type="text"
                 placeholder="Fale um pouquinho sobre sua anotação"
-                value={data.description}
+                value={description}
                 required                    
-                onChange={(e) => setData({...data, description: e.target.value})} 
+                onChange={e => setDescription(e.target.value)} 
             />
             <Button type="submit">
                 <p>Salvar entrada</p>
