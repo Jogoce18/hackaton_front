@@ -3,18 +3,20 @@ import { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-export default function NewNote ({newNoteProps,teste}) {
-    const [name,setName] = useState('');
-    const [description,setDescription] = useState('');
+export default function NewNote ({newNoteProps,nameE,descriptionE,teste}) {
+    const [name,setName] = useState(nameE);
+    const [description,setDescription] = useState(descriptionE);
     const {token} = useContext(UserContext);
     const navigate = useNavigate();
 
     function sendNote (event) {
         event.preventDefault();
+        
         const body = {
             name,
             description
         }
+
         const promise = axios.post('https://firsthackaton.herokuapp.com/notas', body, {
              headers: {
                 Authorization: `Bearer ${token}`
