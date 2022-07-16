@@ -3,11 +3,12 @@ import { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-export default function NewNote () {
+export default function NewNote ({newNoteProps,teste}) {
     const [name,setName] = useState('');
     const [description,setDescription] = useState('');
     const {token} = useContext(UserContext);
     const navigate = useNavigate();
+
     function sendNote (event) {
         event.preventDefault();
         const body = {
@@ -19,46 +20,77 @@ export default function NewNote () {
                 Authorization: `Bearer ${token}`
             }
         });
-         promise.then((res) => {
+         promise.then(() => {
              navigate('/')
          })
-         promise.catch((err) => {
-             alert('Algo deu errado! Tente novamente.')
-         })
+         promise.catch(Error=>{
+			alert(Error.response.data.message)
+		});
      }
 
 
     return (
         <Container>
-            
+            {
+                newNoteProps ? 
             <Form>
-            <Formcontrol>  
-            <label for="title">Title</label> 
-            <Input
-                    type="text" id="text" placeholder="Enter your title" autocomplete="off" name="title"
-                    value={name}
+                <Formcontrol>  
+                <label for="title">Title</label>
+                
+                <Input
+                        type="text" id="text" placeholder="Enter your title" autocomplete="off" name="title"
+                        value={name}
+                        required                    
+                        onChange={e => setName(e.target.value)}
+                />
+                </Formcontrol>
+                <Formcontrol> 
+                <label for="desc">Description</label>
+                <Input
+                    type="text"
+                    placeholder="Description"
+                    value={description}
                     required                    
-                    onChange={e => setName(e.target.value)}
-            />
-            </Formcontrol>
-            <Formcontrol> 
-            <label for="desc">Description</label>
-            <Input
-                type="text"
-                placeholder="Description"
-                value={description}
-                required                    
-                onChange={e => setDescription(e.target.value)}
-            />
-             </Formcontrol>
-            <Button type="submit" onClick={sendNote}>
-                <p>+</p>
-            </Button>   
-            <Link to="/" style={{ textDecoration: "none" }}>
-            <Button1 type="submit" >Back</Button1> 
-            </Link>
+                    onChange={e => setDescription(e.target.value)}
+                />
+                </Formcontrol>
+                    <Button type="submit" onClick={(event)=>teste(event,name,description)}>
+                        <p>T</p>
+                    </Button>    
+                <Link to="/" style={{ textDecoration: "none" }}>
+                    <Button1 type="submit" >Back</Button1> 
+                </Link>
             </Form>
-            
+            :
+            <Form>
+                <Formcontrol>  
+                <label for="title">Title</label>
+                
+                <Input
+                        type="text" id="text" placeholder="Enter your title" autocomplete="off" name="title"
+                        value={name}
+                        required                    
+                        onChange={e => setName(e.target.value)}
+                />
+                </Formcontrol>
+                <Formcontrol> 
+                <label for="desc">Description</label>
+                <Input
+                    type="text"
+                    placeholder="Description"
+                    value={description}
+                    required                    
+                    onChange={e => setDescription(e.target.value)}
+                />
+                </Formcontrol>
+                    <Button type="submit" onClick={sendNote}>
+                        <p>+</p>
+                    </Button>    
+                <Link to="/" style={{ textDecoration: "none" }}>
+                    <Button1 type="submit" >Back</Button1> 
+                </Link>
+            </Form>
+            } 
         </Container>
     )
 }
