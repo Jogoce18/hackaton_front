@@ -3,7 +3,9 @@ import { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-export default function NewNote ({edit,nameE,descriptionE,teste}) {
+import { IoPencil } from 'react-icons/io5'
+
+export default function NewNote ({setEdit,edit,nameE,descriptionE,teste}) {
     const [name,setName] = useState(nameE);
     const [description,setDescription] = useState(descriptionE);
     const {token} = useContext(UserContext);
@@ -57,10 +59,10 @@ export default function NewNote ({edit,nameE,descriptionE,teste}) {
                 />
                 </Formcontrol>
                     <Button type="submit" onClick={(event)=>teste(event,name,description)}>
-                        <p>T</p>
+                        <p><IoPencil /></p>
                     </Button>    
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <Button1 type="submit" >Back</Button1> 
+                    <Button1 onClick={()=>setEdit(false)} >Back</Button1> 
                 </Link>
             </Form>
             :
