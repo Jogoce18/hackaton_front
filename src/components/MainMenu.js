@@ -66,7 +66,7 @@ export default function MainMenu () {
         <Right>
           <MenuItem>
           {
-            login ? <h2>Oi, { user.name }! </h2> : <h2>Seja bem-vinda(o)!</h2>
+            login ? <h2>Oi, { user.name }! </h2> : <h2></h2>
           } 
           </MenuItem>
           <MenuItem onClick={() => navigate('/sign-up')}>REGISTER</MenuItem>
@@ -75,7 +75,9 @@ export default function MainMenu () {
         </Wrapper>
      </Header>
        <Container>
+       
             <Notes>
+        
             {
                 currentItens.length > 0 ? currentItens.map((note, index) => <Note key={index} name={note.name} description={note.description} date={note.noteId} setCurrentPage={setCurrentPage} pages={pages}/> )
                 : <h2>Você não possui nenhuma nota!</h2>
@@ -119,6 +121,7 @@ const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
+  font-weight: bold;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 const Center = styled.div`
@@ -134,6 +137,11 @@ const Nogo = styled.h1`
   font-weight: bold;
   ${mobile({ fontSize: "24px" })}
 `;
+
+const Notetext= styled.h2 `
+  margin-bottom: 20px;
+  `;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -168,9 +176,8 @@ const Container=styled.div`
     height: 100%;
     margin-top: 60px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    
+    gap:5px;
+
   
 `
 
