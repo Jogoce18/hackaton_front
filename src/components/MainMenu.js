@@ -7,7 +7,6 @@ import Note from './Note'
 import { mobile } from './Responsive';
 import Logo from "./../assets/icons8-notes-100.png";
 
-
 export default function MainMenu () {
     const [notes, setNotes] = useState([]);
     const { user,token} = useContext(UserContext);
