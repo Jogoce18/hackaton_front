@@ -4,6 +4,7 @@ import axios from "axios";
 import UserContext from "../contexts/UserContext.js";
 import { useContext, useState } from "react";
 import NewNote from "./NewNote.js";
+import MDEditor from "@uiw/react-md-editor";
 
 export default function Note ({ name, description, date, setCurrentPage, pages}) {
     const {token} = useContext(UserContext);
@@ -50,20 +51,17 @@ export default function Note ({ name, description, date, setCurrentPage, pages})
     }
 
     return (
-       
             
             <NoteF>
                 <Notetext1>
                     {name}
                 </Notetext1>
                 <h3>{dayjs(date).format('DD/MM')}</h3>
-                <Notetext>
-                    {description}
-                </Notetext>
+                <MDEditor.Markdown source={description} style={{ whiteSpace: 'pre-wrap' }} />
                 <Button onClick={()=>deleteMarkdown(date)} >Delete</Button>
                 <Button1 onClick={()=>setEdit(true)}>Edit</Button1>
                 {
-                    edit ? <NewNote edit={true} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
+                    edit ? <NewNote setEdit={setEdit} edit={true} nameE={name} descriptionE={description} teste={(event,name,description)=>editMarkdown(event,name,description,date)} /> : ''
                 }
             </NoteF>
            
@@ -110,6 +108,7 @@ font-weight: bold;
 font-family: 'Urbanist', sans-serif;
 
         `
+   
 const Button1=styled.button`
             padding: 8px 15px;
             letter-spacing: 1px;

@@ -42,17 +42,14 @@ export default function MainMenu () {
       navigate('/newnote')
     }
 
-    const Slider = () => {
-      const [slideIndex, setSlideIndex] = useState(0);
-      const handleClick = (direction) => {
-        if (direction === "left") {
-          setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
-        } else {
-          setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
-        }
-      }
-    };
-
+    const [current, setCurrent] = useState(0);
+    
+    const nextSlide = () => {
+      setCurrent(current === notes.length - 1 ? 0 : current + 1)
+    }
+    const prevSlide = () => {
+      setCurrent(current === 0 ? notes.length - 1 : current - 1)
+    }
     return (
         <>
       <Header>
@@ -77,15 +74,23 @@ export default function MainMenu () {
         </Wrapper>
      </Header>
        <Container>
-            <ion-icon name="arrow-back-circle-outline" direction="left" onClick={() => handleClick("left")}></ion-icon>
+           
             <Notes>
-        
+            <ion-icon name="arrow-back-circle-outline" className="left" onClick={prevSlide}></ion-icon>
             {
-                notes.length > 0 ? notes.map((note, index) => <Note key={index} name={note.name} description={note.description} date={note.noteId}/> )
+                notes.length > 0 ? notes.map((note, index) => {
+                  return (
+                    <div className={index === current ? 'slide active' : 'slide'} key={index}>
+                      {index === current && (<Note key={index} name={note.name} description={note.description} date={note.noteId}/>)}
+                      
+                    </div>
+                  )
+                })
                 : <h2>Você não possui nenhuma nota!</h2>
             }
+            <ion-icon name="arrow-forward-circle-outline" className="right" onClick={nextSlide}></ion-icon>
             </Notes>
-            <ion-icon name="arrow-forward-circle-outline" direction="right" onClick={() => handleClick("right")}></ion-icon>
+            
        </Container>
        </>
     )
@@ -180,7 +185,7 @@ const Container=styled.div`
     margin-top: 60px;
     display: flex;
     gap:5px;
-
+    position: absolute; 
     ion-icon {
       width: 50px;
       height: 50px;
@@ -189,15 +194,19 @@ const Container=styled.div`
       display: flex;
       align-items: center;
       justify-content: center;
-      position: absolute;
-      top: 0;
-      bottom: 0;
+
       left: ${(props) => props.direction === "left" && "10px"};
       right: ${(props) => props.direction === "right" && "10px"};
       margin: auto;
       cursor: pointer;
       opacity: 0.5;
       z-index: 2;
+    }
+
+    .left {
+      position: absolute;
+      top: 0;
+      bottom: 0;
     }
 `
 

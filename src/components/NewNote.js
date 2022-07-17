@@ -3,7 +3,10 @@ import { useState,useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import UserContext from '../contexts/UserContext';
-export default function NewNote ({edit,nameE,descriptionE,teste}) {
+import { IoPencil } from 'react-icons/io5';
+import MDEditor from "@uiw/react-md-editor";
+
+export default function NewNote ({setEdit,edit,nameE,descriptionE,teste}) {
     const [name,setName] = useState(nameE);
     const [description,setDescription] = useState(descriptionE);
     const {token} = useContext(UserContext);
@@ -45,22 +48,13 @@ export default function NewNote ({edit,nameE,descriptionE,teste}) {
                         required                    
                         onChange={e => setName(e.target.value)}
                 />
+                <MDEditor height={300} value={description} onChange={setDescription} />
                 </Formcontrol>
-                <Formcontrol> 
-                <label for="desc">Description</label>
-                <Input
-                    type="text"
-                    placeholder="Description"
-                    value={description}
-                    required                    
-                    onChange={e => setDescription(e.target.value)}
-                />
-                </Formcontrol>
-                    <Button type="submit" onClick={(event)=>teste(event,name,description)}>
-                        <p>T</p>
-                    </Button>    
+                <Button type="button" onClick={(event)=>teste(event,name,description)}>
+                    <p><IoPencil /></p>
+                </Button>
                 <Link to="/" style={{ textDecoration: "none" }}>
-                    <Button1 type="submit" >Back</Button1> 
+                    <Button1 onClick={()=>setEdit(false)} >Back</Button1> 
                 </Link>
             </Form>
             :
@@ -75,16 +69,7 @@ export default function NewNote ({edit,nameE,descriptionE,teste}) {
                         onChange={e => setName(e.target.value)}
                 />
                 </Formcontrol>
-                <Formcontrol> 
-                <label for="desc">Description</label>
-                <Input
-                    type="text"
-                    placeholder="Description"
-                    value={description}
-                    required                    
-                    onChange={e => setDescription(e.target.value)}
-                />
-                </Formcontrol>
+                <MDEditor height={300} value={description} onChange={setDescription} />
                     <Button type="submit" onClick={sendNote}>
                         <p>+</p>
                     </Button>    
