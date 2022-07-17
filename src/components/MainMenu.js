@@ -11,8 +11,6 @@ export default function MainMenu () {
     const [notes, setNotes] = useState([]);
     const { user,token} = useContext(UserContext);
     const navigate = useNavigate();
-    const [itensPerPage, setItensPerPage] = useState(3);
-    const [currentPage, setCurrentPage] = useState(0);
     const [login, setLogin]  = useState(false);
 
 	useEffect(() => {
@@ -44,11 +42,14 @@ export default function MainMenu () {
       navigate('/newnote')
     }
 
-    const pages = Math.ceil(notes.length / itensPerPage);
-    const startIndex = currentPage * itensPerPage;
-    const endIndex = startIndex + itensPerPage;
-    const currentItens = notes.slice(startIndex, endIndex);
-
+    const [current, setCurrent] = useState(0);
+    
+    const nextSlide = () => {
+      setCurrent(current === notes.length - 1 ? 0 : current + 1)
+    }
+    const prevSlide = () => {
+      setCurrent(current === 0 ? notes.length - 1 : current - 1)
+    }
     return (
         <>
       <Header>
@@ -73,13 +74,23 @@ export default function MainMenu () {
         </Wrapper>
      </Header>
        <Container>
+           
             <Notes>
-        
+            <ion-icon name="arrow-back-circle-outline" className="left" onClick={prevSlide}></ion-icon>
             {
-                currentItens.length > 0 ? currentItens.map((note, index) => <Note key={index} name={note.name} description={note.description} date={note.noteId} setCurrentPage={setCurrentPage} pages={pages}/> )
+                notes.length > 0 ? notes.map((note, index) => {
+                  return (
+                    <div className={index === current ? 'slide active' : 'slide'} key={index}>
+                      {index === current && (<Note key={index} name={note.name} description={note.description} date={note.noteId}/>)}
+                      
+                    </div>
+                  )
+                })
                 : <h2>Você não possui nenhuma nota!</h2>
             }
+            <ion-icon name="arrow-forward-circle-outline" className="right" onClick={nextSlide}></ion-icon>
             </Notes>
+            
        </Container>
        </>
     )
@@ -137,7 +148,7 @@ const Nogo = styled.h1`
 
 const Notetext= styled.h2 `
   margin-bottom: 20px;
-  `;
+`;
 
 const Right = styled.div`
   flex: 1;
@@ -174,6 +185,29 @@ const Container=styled.div`
     margin-top: 60px;
     display: flex;
     gap:5px;
+    position: absolute; 
+    ion-icon {
+      width: 50px;
+      height: 50px;
+      background-color: #fff7f7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      left: ${(props) => props.direction === "left" && "10px"};
+      right: ${(props) => props.direction === "right" && "10px"};
+      margin: auto;
+      cursor: pointer;
+      opacity: 0.5;
+      z-index: 2;
+    }
+
+    .left {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
 `
 
 
