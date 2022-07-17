@@ -11,8 +11,6 @@ export default function MainMenu () {
     const [notes, setNotes] = useState([]);
     const { user,token} = useContext(UserContext);
     const navigate = useNavigate();
-    const [itensPerPage, setItensPerPage] = useState(3);
-    const [currentPage, setCurrentPage] = useState(0);
     const [login, setLogin]  = useState(false);
 
 	useEffect(() => {
@@ -44,10 +42,16 @@ export default function MainMenu () {
       navigate('/newnote')
     }
 
-    const pages = Math.ceil(notes.length / itensPerPage);
-    const startIndex = currentPage * itensPerPage;
-    const endIndex = startIndex + itensPerPage;
-    const currentItens = notes.slice(startIndex, endIndex);
+    const Slider = () => {
+      const [slideIndex, setSlideIndex] = useState(0);
+      const handleClick = (direction) => {
+        if (direction === "left") {
+          setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+        } else {
+          setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+        }
+      }
+    };
 
     return (
         <>
@@ -73,14 +77,15 @@ export default function MainMenu () {
         </Wrapper>
      </Header>
        <Container>
-       
+            <ion-icon name="arrow-back-circle-outline" direction="left" onClick={() => handleClick("left")}></ion-icon>
             <Notes>
         
             {
-                currentItens.length > 0 ? currentItens.map((note, index) => <Note key={index} name={note.name} description={note.description} date={note.noteId} setCurrentPage={setCurrentPage} pages={pages}/> )
+                notes.length > 0 ? notes.map((note, index) => <Note key={index} name={note.name} description={note.description} date={note.noteId}/> )
                 : <h2>Você não possui nenhuma nota!</h2>
             }
             </Notes>
+            <ion-icon name="arrow-forward-circle-outline" direction="right" onClick={() => handleClick("right")}></ion-icon>
        </Container>
        </>
     )
@@ -138,7 +143,7 @@ const Nogo = styled.h1`
 
 const Notetext= styled.h2 `
   margin-bottom: 20px;
-  `;
+`;
 
 const Right = styled.div`
   flex: 1;
@@ -175,6 +180,25 @@ const Container=styled.div`
     margin-top: 60px;
     display: flex;
     gap:5px;
+
+    ion-icon {
+      width: 50px;
+      height: 50px;
+      background-color: #fff7f7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: ${(props) => props.direction === "left" && "10px"};
+      right: ${(props) => props.direction === "right" && "10px"};
+      margin: auto;
+      cursor: pointer;
+      opacity: 0.5;
+      z-index: 2;
+    }
 `
 
 
